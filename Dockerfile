@@ -32,7 +32,7 @@ EXPOSE 3000
 
 # Healthcheck simple (requiere GET /health)
 HEALTHCHECK --interval=10s --timeout=3s --retries=10 \
-  CMD wget -qO- http://localhost:3000/health >/dev/null || exit 1
+  CMD wget -qO- http://localhost:3000/api/health >/dev/null || exit 1
 
 CMD ["node","dist/main.js"]
 
