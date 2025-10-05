@@ -1,0 +1,20 @@
+# DB
+DB_HOST=pg16
+DB_PORT=5432
+DB_USER=admin
+DB_PASS=CambiaEstaClaveFuerte123!
+DB_NAME=logisticacdv
+
+# APP
+PORT=3000
+NODE_ENV=production
+
+# IMÁGENES
+API_IMAGE_TAG_STABLE=latest      # o tu tag real
+IMAGE_TAG_STABLE=latest
+IMAGE_TAG_CANARY=latest
+
+# PUERTOS FRONT
+HOST_PORT_STABLE=8080
+HOST_PORT_CANARY=8083
+
