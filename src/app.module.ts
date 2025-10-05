@@ -5,6 +5,7 @@ import { Lista } from 'src/lista/lista.entity';
 import { Registro } from 'src/registro/registro.entity';
 import { ListaModule } from 'src/lista/lista.module';
 import { RegistroModule } from 'src/registro/registro.module';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -25,5 +26,6 @@ import { RegistroModule } from 'src/registro/registro.module';
     ListaModule,
     RegistroModule,
   ],
+  controllers: [HealthController], // 👈 registra aquí
 })
 export class AppModule {}
