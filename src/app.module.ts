@@ -6,6 +6,8 @@ import { Registro } from 'src/registro/registro.entity';
 import { ListaModule } from 'src/lista/lista.module';
 import { RegistroModule } from 'src/registro/registro.module';
 import { HealthController } from './health.controller';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 
 @Module({
   imports: [
@@ -18,13 +20,14 @@ import { HealthController } from './health.controller';
         username: process.env.DB_USER,
         password: process.env.DB_PASS,
         database: process.env.DB_NAME,
-        entities: [Lista, Registro],
+        entities: [Lista, Registro, User],
         synchronize: true, // ⚠️ usa migraciones; true solo en desarrollo inicial
         logging: true,
       }),
     }),
     ListaModule,
     RegistroModule,
+    AuthModule,
   ],
   controllers: [HealthController], // 👈 registra aquí
 })
