@@ -14,4 +14,13 @@ export class AuthController {
     signUp(@Body() dto: AuthCredentialsDto): Promise<void> {
         return this.authService.signUp(dto);
     }
+
+    // POST auth/signin
+
+    @Post('/signin')
+    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    @HttpCode(200)
+    signIn(@Body() dto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+        return this.authService.signIn(dto);
+    }
 }

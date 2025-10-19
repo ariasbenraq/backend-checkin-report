@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Param, Body, Query, Patch, Delete, ParseIntPipe, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Query, Patch, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { ListaService } from './lista.service';
 import { CreateListaDto } from './dto/create-lista.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('listas') // /listas
+@UseGuards(AuthGuard('jwt'))
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 export class ListaController {
   constructor(private service: ListaService) {}
