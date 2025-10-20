@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, DeleteDateColumn, ManyToOne } from 'typeorm';
 import { Registro } from '../registro/registro.entity';
+import { User } from '../auth/user.entity';
 
 @Entity('lista')
 export class Lista {
@@ -26,6 +27,10 @@ export class Lista {
 
   @OneToMany(() => Registro, (r) => r.lista, { cascade: true, eager: true })
   detalles: Registro[];
+
+  @ManyToOne(() => User, (u) => u.listas, { eager: false, nullable: false })
+  user: User;
+
 
   // Soft delete estándar (reemplaza isDeleted)
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
