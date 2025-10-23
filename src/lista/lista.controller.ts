@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Query, Patch, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Query, Patch, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, Logger, HttpCode } from '@nestjs/common';
 import { ListaService } from './lista.service';
 import { CreateListaDto } from './dto/create-lista.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -50,6 +50,7 @@ export class ListaController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   async deleteLista(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User
