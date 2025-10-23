@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { In, Repository } from 'typeorm';
@@ -17,24 +17,25 @@ export class AuthService {
     ) { }
 
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-        const { username, password } = authCredentialsDto;
+        // const { username, password } = authCredentialsDto;
 
-        //1. Validar
-        const existing = await this.userRepository.findOne({ where: { username } });
-        if (existing) {
-            // throw new Error('Username already exists');
-            throw new ConflictException('Username already exists');
-        }
+        // //1. Validar
+        // const existing = await this.userRepository.findOne({ where: { username } });
+        // if (existing) {
+        //     // throw new Error('Username already exists');
+        //     throw new ConflictException('Username already exists');
+        // }
 
-        //2. Encriptar contraseña
-        const salt = await bcrypt.genSalt();
-        const hashed = await bcrypt.hash(password, salt);
+        // //2. Encriptar contraseña
+        // const salt = await bcrypt.genSalt();
+        // const hashed = await bcrypt.hash(password, salt);
 
-        //3. Crear entidad de usuario
-        const user = this.userRepository.create({ username, password: hashed });
+        // //3. Crear entidad de usuario
+        // const user = this.userRepository.create({ username, password: hashed });
 
-        //4. Guardar en la base de datos
-        await this.userRepository.save(user);
+        // //4. Guardar en la base de datos
+        // await this.userRepository.save(user);
+        throw new ForbiddenException('Sign-ups are disabled');
     }
 
     async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
