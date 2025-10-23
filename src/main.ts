@@ -10,7 +10,7 @@ async function bootstrap() {
   const ALLOWED_ORIGINS = [
     'http://localhost:5173',   // Vite local
     'http://127.0.0.1:5173',
-    'https://checkin-report.vercel.app/',
+    'https://checkin-report.vercel.app',
     // 'https://tu-front.vercel.app',
   ];
 

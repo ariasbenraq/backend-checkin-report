@@ -16,9 +16,11 @@ const nodeConfig = require('config');
     JwtModule.registerAsync({
       useFactory: (): any => {
         // Lee de node-config y permite override por ENV
-        const jwtCfg = nodeConfig.get('jwt') as { secret?: string; expiresIn?: string | number };
-        const secret = process.env.JWT_SECRET ?? jwtCfg.secret;
-        const expiresIn = process.env.JWT_EXPIRES_IN ?? jwtCfg.expiresIn ?? 3600;
+        const hasJwtObj = nodeConfig && typeof nodeConfig.has === 'function' ? nodeConfig.has('jwt') : false;
+        const jwtCfg = hasJwtObj ? (nodeConfig.get('jwt') as { secret?: string; expiresIn?: string | number }) : {};
+
+        const secret = process.env.JWT_SECRET ?? jwtCfg?.secret;
+        const expiresIn = process.env.JWT_EXPIRES_IN ?? jwtCfg?.expiresIn ?? 3600;
         if (!secret) {
           throw new Error('JWT secret is not set. Provide JWT_SECRET env or set jwt.secret in config.');
         }
@@ -34,4 +36,4 @@ const nodeConfig = require('config');
   providers: [AuthService, JwtStrategy],
   exports: [JwtStrategy, PassportModule],
 })
-export class AuthModule {}
+export class AuthModule { }

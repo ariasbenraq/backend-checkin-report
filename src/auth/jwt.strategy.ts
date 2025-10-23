@@ -11,9 +11,18 @@ const nodeConfig = require('config');
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(@InjectRepository(User) private userRepository: Repository<User>) {
+        const hasNested = nodeConfig && typeof nodeConfig.has === 'function' ? nodeConfig.has('jwt.secret') : false;
+        const cfgSecret = hasNested ? nodeConfig.get('jwt.secret') : undefined;
+        const secret = process.env.JWT_SECRET ?? cfgSecret;
+
+        if (!secret) {
+            // Falla temprano y explícito
+            throw new Error('JWT secret is not set. Provide JWT_SECRET env or set jwt.secret in config.');
+        }
+
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: process.env.JWT_SECRET ?? nodeConfig.get('jwt.secret'),
+            secretOrKey: secret,
         });
     }
 
