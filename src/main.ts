@@ -14,18 +14,20 @@ async function bootstrap() {
     // 'https://tu-front.vercel.app',
   ];
 
-  app.enableCors({
-    origin: (origin, cb) => {
-      if (!origin) return cb(null, true);                         // curl/Postman
-      if (ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
-      return cb(new Error('Not allowed by CORS'));
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type, Authorization',
-    credentials: true,                  // ponlo en false si no usas cookies
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  });
+  // app.enableCors({
+  //   origin: (origin, cb) => {
+  //     if (!origin) return cb(null, true);                         // curl/Postman
+  //     if (ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+  //     return cb(new Error('Not allowed by CORS'));
+  //   },
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  //   allowedHeaders: 'Content-Type, Authorization',
+  //   credentials: true,                  // ponlo en false si no usas cookies
+  //   preflightContinue: false,
+  //   optionsSuccessStatus: 204,
+  // });
+
+  app.enableCors({ origin: true, credentials: true });
   logger.log('CORS enabled');
 
   const port = parseInt(process.env.PORT ?? '3000', 10);
