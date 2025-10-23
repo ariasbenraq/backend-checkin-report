@@ -1,0 +1,7 @@
+db:
+  synchronize: false   # ya está en default, lo reafirmamos
+  ssl: true            # activa si tu proveedor requiere SSL
+
+jwt:
+  # NO guardes el secret aquí. Cárgalo por ENV en el servidor.
+  expiresIn: '12h'

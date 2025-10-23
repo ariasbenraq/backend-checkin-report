@@ -8,20 +8,23 @@ import { RegistroModule } from 'src/registro/registro.module';
 import { HealthController } from './health.controller';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
+import * as config from 'config';
+
+const nodeConfig = require('config');
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        type: 'postgres',
-        host: process.env.DB_HOST,
-        port: Number(process.env.DB_PORT),
-        username: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        database: process.env.DB_NAME,
+        type: nodeConfig.get('db.type'),
+        host: process.env.RDS_HOST || nodeConfig.get('db.host'),
+        port: process.env.RDS_PORT || nodeConfig.get('db.port'),
+        username: process.env.RDS_USER || nodeConfig.get('db.username'),
+        password: process.env.RDS_PASS || nodeConfig.get('db.password'),
+        database: process.env.RDS_NAME || nodeConfig.get('db.database'),
         entities: [Lista, Registro, User],
-        synchronize: true, // ⚠️ usa migraciones; true solo en desarrollo inicial
+        synchronize: process.env.TYPEORM_SYNC || config.synchronize,
         logging: true,
       }),
     }),

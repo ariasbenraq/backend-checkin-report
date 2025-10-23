@@ -1,0 +1,16 @@
+server:
+  port: 3000
+
+db:
+  type: 'postgres'
+  host: 'localhost'   # se sobreescribe en development / producción
+  port: 5432
+  database: 'logisticacdv'
+  username: 'postgres'  # por si acaso, se sobreescribe
+  password: ''
+  synchronize: false     # NUNCA en prod
+  ssl: false
+
+jwt:
+  # NO pongas el secret aquí (evita comitearlo). Úsalo en env o en development.
+  expiresIn: 3600        # segundos (equivale a 1h)

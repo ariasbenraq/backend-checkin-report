@@ -1,27 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import * as config from 'config';
 
 async function bootstrap() {
+  const serverConfig = require('config').get('server')  as { port: number };
+  const logger = new Logger('Bootstrap');
+
   const app = await NestFactory.create(AppModule);
 
-  // 👉 Aquí activas validación global
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,   // elimina campos no definidos en DTOs
-      forbidNonWhitelisted: false, // si quieres que lance error, pon true
-      transform: true,   // convierte tipos (string → number, date, etc.)
-    }),
-  );
+  if (process.env.NODE_ENV === 'development') {
+    app.enableCors();
+    logger.log('CORS enabled for development');
+  }
 
-  app.setGlobalPrefix('api'); // <<—— agrega el prefijo /api
-
-  app.enableCors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  });
-
-  await app.listen(process.env.PORT || 3000, '0.0.0.0');
+  const port = process.env.PORT || serverConfig.port;
+  await app.listen(port);
+  logger.log(`Application is running on port: ${port}`);
 }
 bootstrap();
+

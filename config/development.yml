@@ -1,0 +1,10 @@
+db:
+  host: 192.168.18.10
+  username: 'admin'
+  password: 'CambiaEstaClaveFuerte123!'
+  synchronize: true
+
+jwt:
+  secret: 'SupaSecretaClaveJWTParaFirmarTokens12345!'
+  # si quieres, puedes redefinir:
+  # expiresIn: '1d'

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Query, Patch, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Query, Patch, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, Logger } from '@nestjs/common';
 import { ListaService } from './lista.service';
 import { CreateListaDto } from './dto/create-lista.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -10,6 +10,7 @@ import { Lista } from './lista.entity';
 @UseGuards(AuthGuard('jwt'))
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 export class ListaController {
+  private logger = new Logger('ListaController');
   constructor(private service: ListaService) { }
 
   @Get()
@@ -17,6 +18,7 @@ export class ListaController {
     @Query() q: any,
     @GetUser() user: User,
   ): Promise<{ data: Lista[]; pageInfo: { page: number; limit: number; total: number } }> {
+    this.logger.verbose(`(User ${user.username} retrieving all lists. Filters: ${JSON.stringify(q)})`);
     return this.service.getList(q, user);
   }
 
@@ -25,6 +27,7 @@ export class ListaController {
     @Body() dto: CreateListaDto,
     @GetUser() user: User
   ): Promise<Lista> {
+    this.logger.verbose(`(User ${user.username} creating a new task. Data: ${JSON.stringify(dto)})`);
     return this.service.createList(dto, user);
   }
 
