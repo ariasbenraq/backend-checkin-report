@@ -41,7 +41,7 @@ const nodeConfig = require('config');
         }
 
         const getIf = (k: string, def?: any) =>
-          nodeConfig.has(k) ? nodeConfig.get(k) : def;    
+          nodeConfig.has(k) ? nodeConfig.get(k) : def;
 
         // Si NO hay DATABASE_URL, usamos config YAML (desarrollo/local)
         return {
@@ -55,7 +55,7 @@ const nodeConfig = require('config');
           synchronize:
             String(process.env.TYPEORM_SYNC ?? getIf('db.synchronize')).toLowerCase() === 'true',
           ssl: getIf('db.ssl') ? { rejectUnauthorized: false } : false,
-          logging: true,
+          logging: process.env.NODE_ENV !== 'production',
         };
       },
     }),
